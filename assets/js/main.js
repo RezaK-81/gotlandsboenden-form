@@ -142,7 +142,7 @@
             gotlandsboendenForm.removeClass('active');
         });
 
-        $('.gotlandsboenden-form-mobile').on('click', '.gotlandsboenden-form-display', function (e) {
+        $('.gotlandsboenden-form-mobile').on('click', '.gotlandsboenden-form-display__date, .gotlandsboenden-form-display__person', function (e) {
             gotlandsboendenForm.addClass('active');
         });
 
