@@ -2,13 +2,48 @@
     $(document).ready(function () {
         const gotlandsboendenForm = $('.gotlandsboenden-form');
 
-        gotlandsboendenForm.on('click', '.form-group', function (e) {
+        $(document).on('click', function (e) {
+            if (!$(e.target).closest('.form-group.area').length) {
+                $('.form-group.area').removeClass('menu-is-opened');
+            }
+            if (!$(e.target).closest('.form-group.date').length) {
+                $('.form-group.area').removeClass('menu-is-opened');
+            }
+        });
+        gotlandsboendenForm.on('click', '.form-group.area, .form-group.date', function (e) {
             e.stopPropagation();
+            if (!$(e.target).closest('.form-group.area').length) {
+                $('.form-group.area').removeClass('menu-is-opened');
+            }
+
+            if (!$(e.target).closest('.form-group.date').length) {
+                $('.form-group.date').removeClass('menu-is-opened');
+            }
+
             $('#guest_menu').find('.guestWrapper').removeClass('active');
-            $(this).find('.form-control').focus();
+
+            if ($(this).find('.form-control').length > 0) {
+                if ($(this).find('.form-control').closest('.form-group.date').hasClass('menu-is-opened')) {
+                    $(this).find('.form-control').closest('.form-group.date').removeClass('menu-is-opened');
+                    $(this).find('.form-control').blur();
+                }else {
+                    $('.form-group.date').removeClass('menu-is-opened');
+                    $(this).find('.form-control').closest('.form-group.date').addClass('menu-is-opened');
+                    $(this).find('.form-control').focus();
+                }
+
+            }
+
+
             let select = $(this).find('.ui-selectmenu-button');
             if (select.length > 0) {
-                jQuery("#accommodationAreaWrapper").selectmenu('open');
+                if (!$(this).hasClass('menu-is-opened')) {
+                    $(this).addClass('menu-is-opened');
+                    jQuery("#accommodationAreaWrapper").selectmenu('open');
+                } else {
+                    $(this).removeClass('menu-is-opened');
+                    jQuery("#accommodationAreaWrapper").selectmenu('close');
+                }
             }
         });
         function adjustChildrenAgeElement(newCount) {
@@ -110,10 +145,16 @@
         gotlandsboendenForm.on('click', 'button:not([type=submit])', function (e) {
             e.preventDefault();
         });
+        gotlandsboendenForm.on('click', '.btn-confirm-guest', function (e) {
+            e.stopPropagation();
+            $(this).find('.guestWrapper').removeClass('active');
+        });
 
         gotlandsboendenForm.on('click', '#guest_menu', function (e) {
             e.stopPropagation();
-            if (!$(e.target).hasClass('btn-confirm-guest')) $(this).find('.guestWrapper').addClass('active');
+            $('.form-group.date').removeClass('menu-is-opened');
+            $(this).find('.guestWrapper').toggleClass('active');
+
         });
         gotlandsboendenForm.on('change', '.select-gc-age', function (e) {
            $(document).trigger('caltulateChildrenAge');
