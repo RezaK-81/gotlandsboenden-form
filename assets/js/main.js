@@ -10,6 +10,7 @@
                 $('.form-group.area').removeClass('menu-is-opened');
             }
         });
+
         gotlandsboendenForm.on('click', '.form-group.area, .form-group.date', function (e) {
             e.stopPropagation();
             if (!$(e.target).closest('.form-group.area').length) {
@@ -152,8 +153,11 @@
 
         gotlandsboendenForm.on('click', '#guest_menu', function (e) {
             e.stopPropagation();
+            $('.form-group.area').removeClass('menu-is-opened');
             $('.form-group.date').removeClass('menu-is-opened');
-            $(this).find('.guestWrapper').toggleClass('active');
+            if (!$(e.target).closest('.guestWrapper').length) {
+                $(this).find('.guestWrapper').toggleClass('active');
+            }
 
         });
         gotlandsboendenForm.on('change', '.select-gc-age', function (e) {
